@@ -1,0 +1,201 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
+}
+
+datasource DS {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Workspace {
+  id             String       @id @default(uuid())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now())
+  orbitSyncAt    DateTime     @default(now())
+  orbitUpdatedAt DateTime     @default(now())
+  orbitId        Int          @unique
+  name           String       @unique
+  slug           String       @unique
+  members        Member[]
+  repositories   Repository[]
+}
+
+model Member {
+  id                      String      @id @default(uuid())
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @default(now())
+  orbitSyncAt             DateTime    @default(now())
+  orbitUpdatedAt          DateTime    @default(now())
+  orbitId                 Int         @unique
+  deletedAt               DateTime?
+  activitiesCount         Int         @default(0)
+  avatarUrl               String?
+  bio                     String?
+  birthday                String?
+  company                 String?
+  firstActivityOccurredAt DateTime?
+  lastActivityOccurredAt  DateTime?
+  mergedAt                DateTime?
+  location                String?
+  name                    String?
+  orbitLevel              Int         @default(5)
+  pronouns                String?
+  reach                   Int?        @default(0)
+  shippingAddress         String?
+  slug                    String      @unique
+  source                  String
+  tagList                 String[]
+  tags                    String[]
+  teammate                Boolean
+  tshirt                  String?
+  url                     String?
+  orbitUrl                String
+  created                 Boolean
+  love                    Float?      @default(0)
+  twitter                 String?
+  github                  String?
+  discourse               String?
+  email                   String?
+  devto                   String?
+  linkedin                String?
+  githubFollowers         Int?        @default(0)
+  twitterFollowers        Int?        @default(0)
+  topics                  String[]
+  languages               String[]
+  activities              Activity[]
+  identities              Identity[]
+  identitiesCount         Int         @default(0)
+  workspaces              Workspace[]
+}
+
+model Identity {
+  id             String       @id @default(uuid())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now())
+  orbitSyncAt    DateTime     @default(now())
+  orbitUpdatedAt DateTime     @default(now())
+  identityType   IdentityType
+  memberId       String?
+  orbitId        Int          @unique
+  email          String?
+  username       String?
+  name           String?
+  source         String
+  sourceHost     String?
+  uid            String?
+  member         Member?      @relation(fields: [memberId], references: [id])
+
+  @@index(email)
+  @@index(source)
+  @@index(sourceHost)
+  @@index(uid)
+}
+
+model ActivityType {
+  id             String     @id @default(uuid())
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @default(now())
+  orbitSyncAt    DateTime   @default(now())
+  orbitUpdatedAt DateTime   @default(now())
+  orbitId        Int        @unique
+  name           String
+  shortName      String
+  key            String     @unique
+  category       String
+  deletedAt      DateTime?
+  weight         Float      @default(0)
+  activities     Activity[]
+
+  @@index(category)
+}
+
+model Activity {
+  id             String       @id @default(uuid())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now())
+  orbitSyncAt    DateTime     @default(now())
+  orbitUpdatedAt DateTime     @default(now())
+  orbitId        Int          @unique
+  activityTypeId String
+  memberId       String
+  action         String
+  key            String
+  occurredAt     DateTime?
+  type           String
+  orbitUrl       String
+  weight         Float        @default(1.0)
+  gNumber        Int?
+  gHtmlUrl       String?
+  gCreatedAt     DateTime?
+  gId            Int?
+  repositoryId   String?
+  gStarredAt     DateTime?
+  gTitle         String?
+  gMerged        Boolean?
+  gMergedAt      DateTime?
+  gMergedBy      String?
+  gBody          String?
+  isPullRequest  Boolean?     @default(false)
+  tags           String[]
+  activityLink   String?
+  url            String?
+  activityType   ActivityType @relation(fields: [activityTypeId], references: [id])
+  member         Member       @relation(fields: [memberId], references: [id])
+  repository     Repository?  @relation(fields: [repositoryId], references: [id])
+
+  @@index(gId)
+  @@index(gNumber)
+  @@index(key)
+  @@index(memberId)
+  @@index(type)
+  @@index(action)
+}
+
+model Repository {
+  id             String      @id @default(uuid())
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @default(now())
+  orbitSyncAt    DateTime    @default(now())
+  orbitUpdatedAt DateTime    @default(now())
+  orbitId        Int         @unique
+  name           String      @unique
+  owner          String
+  fullName       String
+  activities     Activity[]
+  workspaces     Workspace[]
+
+  @@index(name)
+  @@index(owner)
+}
+
+model Webhook {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  name      String
+  slug      String    @unique
+  endpoint  String
+  payload   Payload[]
+}
+
+model Payload {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  webhook   Webhook  @relation(fields: [webhookId], references: [id])
+  webhookId String
+  body      Json
+}
+
+enum IdentityType {
+  DEVTO_IDENTITY
+  DISCORD_IDENTITY
+  DISCOURSE_IDENTITY
+  EMAIL_IDENTITY
+  GITHUB_IDENTITY
+  LINKEDIN_IDENTITY
+  SLACK_IDENTITY
+  TWITTER_IDENTITY
+  UNKNOWN_IDENTITY
+}

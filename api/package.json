@@ -1,0 +1,12 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@redwoodjs/api": "^0.31.0",
+    "@redwoodjs/api-server": "^0.31.0",
+    "date-fns": "^2.21.1",
+    "deserialize-json-api": "^1.4.0",
+    "got": "^11.8.2"
+  }
+}
