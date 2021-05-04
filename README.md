@@ -1,5 +1,10 @@
 # Orbit Webhook Simulator powered by RedwoodJS
 
+Demonstrate [Orbit](https://www.orbit.love) and [RedwoodJS](https://www.redwoodjs.com) Webhook API integration.
+
+### Flow
+![](docs/diagrams/orbit-simulator-flow.png)
+
 ### Setup
 
 We use Yarn as our package manager. To get the dependencies installed, just do this in the root directory:
