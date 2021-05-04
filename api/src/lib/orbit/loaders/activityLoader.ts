@@ -25,6 +25,8 @@ const persister = async (data) => {
     orbitSyncAt: new Date(),
     orbitUpdatedAt: data.updatedAt || new Date(),
     weight: parseFloat(data.weight),
+    customType: data.tags[1].split(':')[1],
+    customTitle: data.tags[2].split(':')[1],
   }
 
   const activityType = {

@@ -15,6 +15,8 @@ export const QUERY = gql`
       type
       tags
       url
+      customTitle
+      customType
       member {
         email
         name
@@ -22,6 +24,7 @@ export const QUERY = gql`
       }
       activityType {
         name
+        key
       }
     }
   }
@@ -34,9 +37,10 @@ export const Loading = () => {
 
 export const Empty = () => <div>Empty</div>
 
-export const Failure = ({ error }) => (
-  <div style={{ color: 'red' }}>Error: {error.message}</div>
-)
+export const Failure = ({ error }) => {
+  toast.error(error.message)
+  return <div style={{ color: 'red' }}>Error: {error.message}</div>
+}
 
 const Feed = ({ activityItems }) => {
   return (
@@ -67,7 +71,14 @@ const Feed = ({ activityItems }) => {
                   </time>
                 </div>
                 <p className="text-sm text-gray-500">
-                  {activityItem.action} {activityItem.type}
+                  {activityItem.activityType.key === 'custom:happened' && (
+                    <span>{activityItem.customTitle}</span>
+                  )}
+                  {activityItem.activityType.key !== 'custom:happened' && (
+                    <span>
+                      {activityItem.action} {activityItem.type}
+                    </span>
+                  )}
                 </p>
                 <p className="text-sm text-gray-500">
                   {activityItem.tags?.map((tag) => {
