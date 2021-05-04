@@ -18,6 +18,16 @@ export const webhook = ({ id }: Prisma.WebhookWhereUniqueInput) => {
   })
 }
 
+export const simulateWebhook = async ({
+  slug,
+}: Prisma.WebhookWhereUniqueInput) => {
+  const wh = db.webhook.findUnique({
+    where: { slug },
+  })
+
+  return wh
+}
+
 interface CreateWebhookArgs {
   input: Prisma.WebhookCreateInput
 }

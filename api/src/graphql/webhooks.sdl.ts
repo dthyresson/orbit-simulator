@@ -30,5 +30,6 @@ export const schema = gql`
     createWebhook(input: CreateWebhookInput!): Webhook!
     updateWebhook(id: String!, input: UpdateWebhookInput!): Webhook!
     deleteWebhook(id: String!): Webhook!
+    simulateWebhook(slug: String!): Webhook
   }
 `

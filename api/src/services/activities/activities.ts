@@ -7,7 +7,7 @@ import { db } from 'src/lib/db'
 export const activities = () => {
   requireAuth()
 
-  return db.activity.findMany()
+  return db.activity.findMany({ orderBy: { occurredAt: 'desc' } })
 }
 
 export const activity = ({ id }: Prisma.ActivityWhereUniqueInput) => {
