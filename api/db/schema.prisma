@@ -111,38 +111,43 @@ model ActivityType {
 }
 
 model Activity {
-  id             String       @id @default(uuid())
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @default(now())
-  orbitSyncAt    DateTime     @default(now())
-  orbitUpdatedAt DateTime     @default(now())
-  orbitId        Int          @unique
-  activityTypeId String
-  memberId       String
-  action         String
-  key            String
-  occurredAt     DateTime?
-  type           String
-  orbitUrl       String
-  weight         Float        @default(1.0)
-  gNumber        Int?
-  gHtmlUrl       String?
-  gCreatedAt     DateTime?
-  gId            Int?
-  repositoryId   String?
-  gStarredAt     DateTime?
-  gTitle         String?
-  gMerged        Boolean?
-  gMergedAt      DateTime?
-  gMergedBy      String?
-  gBody          String?
-  isPullRequest  Boolean?     @default(false)
-  tags           String[]
-  activityLink   String?
-  url            String?
-  activityType   ActivityType @relation(fields: [activityTypeId], references: [id])
-  member         Member       @relation(fields: [memberId], references: [id])
-  repository     Repository?  @relation(fields: [repositoryId], references: [id])
+  id                String       @id @default(uuid())
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @default(now())
+  orbitSyncAt       DateTime     @default(now())
+  orbitUpdatedAt    DateTime     @default(now())
+  orbitId           Int          @unique
+  activityTypeId    String
+  memberId          String
+  action            String
+  key               String
+  occurredAt        DateTime?
+  type              String
+  orbitUrl          String
+  weight            Float        @default(1.0)
+  gNumber           Int?
+  gHtmlUrl          String?
+  gCreatedAt        DateTime?
+  gId               Int?
+  repositoryId      String?
+  gStarredAt        DateTime?
+  gTitle            String?
+  gMerged           Boolean?
+  gMergedAt         DateTime?
+  gMergedBy         String?
+  gBody             String?
+  isPullRequest     Boolean?     @default(false)
+  tags              String[]
+  activityLink      String?
+  url               String?
+  customDescription String?
+  customLink        String?
+  customLinkText    String?
+  customTitle       String?
+  customType        String?
+  activityType      ActivityType @relation(fields: [activityTypeId], references: [id])
+  member            Member       @relation(fields: [memberId], references: [id])
+  repository        Repository?  @relation(fields: [repositoryId], references: [id])
 
   @@index(gId)
   @@index(gNumber)

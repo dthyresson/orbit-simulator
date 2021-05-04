@@ -16,7 +16,7 @@ export const sendOrbitActivity = async ({ activity }) => {
     responseType: 'json',
   })
 
-  logger.debug(body.data)
+  logger.debug({ orbitResponse: body.data }, 'Response from Orbit API')
 
   return body
 }

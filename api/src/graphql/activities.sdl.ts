@@ -14,6 +14,11 @@ export const schema = gql`
     type: String!
     orbitUrl: String!
     weight: Float!
+    customDescription: String
+    customLink: String
+    customLinkText: String
+    customTitle: String
+    customType: String
     gNumber: Int
     gHtmlUrl: String
     gCreatedAt: DateTime
@@ -51,6 +56,11 @@ export const schema = gql`
     type: String!
     orbitUrl: String!
     weight: Float!
+    customDescription: String
+    customLink: String
+    customLinkText: String
+    customTitle: String
+    customType: String
     gNumber: Int
     gHtmlUrl: String
     gCreatedAt: DateTime
@@ -80,6 +90,11 @@ export const schema = gql`
     type: String
     orbitUrl: String
     weight: Float
+    customDescription: String
+    customLink: String
+    customLinkText: String
+    customTitle: String
+    customType: String
     gNumber: Int
     gHtmlUrl: String
     gCreatedAt: DateTime

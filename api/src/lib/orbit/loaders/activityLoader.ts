@@ -8,7 +8,10 @@ const parser = ({ config, item }) => {
 }
 
 const persister = async (data) => {
-  logger.info(`Saving activity ${data.orbitId} ${data.key} ${data.occurredAt}`)
+  logger.debug(
+    { activityData: data },
+    `Saving activity ${data.orbitId} ${data.key} ${data.occurredAt}`
+  )
 
   const { orbitId, key, occurredAt, activityTypeId } = data
   logger.debug(

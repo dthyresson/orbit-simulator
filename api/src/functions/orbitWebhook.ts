@@ -33,8 +33,10 @@ const webhookDetails = (event) => {
   }
 }
 
-const parseEventPayload = (event) => {
+const parseEventPayload = (webhookLogger, event) => {
   const payload = JSON.parse(JSON.parse(event.body).event_payload).event_payload
+
+  webhookLogger.debug({ orbitEvent: payload }, `Orbit event payload`)
 
   const item = deserialize(payload, { transformKeys: 'camelCase' })
 
@@ -65,7 +67,7 @@ export const handler = async (event: APIGatewayEvent) => {
 
   const webhookLogger = logger.child({ orbitInfo })
 
-  webhookLogger.info(`>> in webhook`)
+  webhookLogger.info(`>> in Orbit webhook`)
 
   try {
     const options = {
@@ -77,6 +79,11 @@ export const handler = async (event: APIGatewayEvent) => {
       secret: process.env.ORBIT_WEBHOOK_SECRET,
       options,
     })
+
+    webhookLogger.debug(
+      { orbitEventBody: JSON.parse(event.body) },
+      `Orbit body payload`
+    )
 
     const input: Prisma.PayloadCreateInput = {
       body: JSON.parse(event.body),
@@ -97,7 +104,7 @@ export const handler = async (event: APIGatewayEvent) => {
     await createPayload({ input })
 
     if (orbitInfo.orbitEventType === 'activity:created') {
-      const parsedActivity = parseEventPayload(event)
+      const parsedActivity = parseEventPayload(webhookLogger, event)
 
       webhookLogger.debug(parsedActivity, 'parsedActivity')
 

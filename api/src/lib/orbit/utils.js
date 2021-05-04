@@ -7,10 +7,13 @@ import {
   endOfTomorrow,
 } from 'date-fns'
 
+import { logger } from 'src/lib/logger'
+
 const camelizeModelKeys = ({ model }) => {
   Object.entries(model).forEach((entry) => {
     const [key, value] = entry
     if (key.indexOf('_') > 0) {
+      logger.debug({ camelizeModelKeys: { key, value } }, 'camelizeModelKeys')
       model[camelcase(key)] = value
       delete model[key]
     }
